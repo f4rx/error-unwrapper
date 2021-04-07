@@ -1,0 +1,79 @@
+linters:
+  presets:
+  - bugs        # bugs detection
+  - comment     # comments analysis
+  - complexity  # code complexity analysis
+  - error       # error handling analysis
+  - format      # code formatting
+  # - import    # imports analysis
+  - metalinter  # linter that contains multiple rules or multiple linters
+  #  - module   # Go modules analysis
+  - performance # performance
+  - sql         # SQL
+  # - style     # coding style
+  # - test      # the analysis of the code of the tests
+  - unused
+  enable:
+  # module; depguard & gomodguard is useless in almost any project
+  - gomoddirectives
+  # style preset
+  - asciicheck
+  - dogsled
+  - dupl
+  - forcetypeassert # ?
+  - gochecknoglobals
+  - gochecknoinits
+  - goconst
+  - godox
+  - goprintffuncname
+  - gosimple
+  - ifshort
+  - lll
+  - makezero
+  - nakedret
+  - nolintlint
+  - predeclared
+  - stylecheck
+  - thelper
+  - tparallel
+  - unconvert
+  - whitespace
+  - wastedassign
+  # test
+  - tparallel
+  disable:
+  # bugs
+  - scopelint     # deprecated and superseded by exportloopref
+  # complexity
+  - funlen # ?
+  # performance
+  - maligned      # deprecated and superseded by govet(fieldalignment)
+linters-settings:
+  dogsled:
+    max-blank-identifiers: 3
+  # errcheck:
+  #   exclude: .errcheck_excludes.txt
+  errorlint:
+    errorf: true
+  godot:
+    scope: declarations
+  # goimports:
+  #   local-prefixes: go.pr0ger.dev/logger
+  gomoddirectives:
+    replace-local: true
+    retract-allow-no-explanation: false
+  govet:
+    enable:
+    - fieldalignment # instead of deprecated maligned
+  lll:
+    tab-width: 4
+  nolintlint:
+    allow-leading-space: false
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  exclude-rules:
+  - path: _test\.go
+    linters:
+    - goerr113
+    - forcetypeassert

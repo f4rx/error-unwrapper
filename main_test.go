@@ -1,43 +1,31 @@
 package unwrapper
 
 import (
-	"testing"
-	// "errors"
 	"fmt"
+	"testing"
 )
 
 type CustomError struct {
-    Msg string
+	Msg string
 }
 
 func (e *CustomError) Error() string { return e.Msg + ": custom error" }
 
 func TestUnwrappError1(t *testing.T) {
-
+	t.Log("TestUnwrappError1")
 	error1 := &CustomError{Msg: "error message"}
 	error2 := fmt.Errorf("Error 2, %w", error1)
 	error3 := fmt.Errorf("Error 3, %w", error2)
 
-
-	// if err != nil {
-	// 	fmt.Println("error:", err)
-	// }
-
 	stackError := unwrappError(error3)
-	fmt.Println(stackError)
-}
+	fmt.Println(stackError[0])
+	result := []string{"*fmt.wrapError", "*fmt.wrapError", "*unwrapper.CustomError"}
 
-func TestUnwrappError2(t *testing.T) {
+	if len(stackError) != 3 {
+		t.Fatal("Wrong len")
+	}
 
-	error1 := &CustomError{Msg: "error message"}
-	// error2 := fmt.Errorf("Error 2, %w", error1)
-	// error3 := fmt.Errorf("Error 3, %w", error2)
-
-
-	// if err != nil {
-	// 	fmt.Println("error:", err)
-	// }
-
-	stackError := unwrappError(error1)
-	fmt.Println(stackError)
+	if result[0] != stackError[0] || result[1] != stackError[1] || result[2] != stackError[2] {
+		t.Fatal("Wrong result")
+	}
 }
